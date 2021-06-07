@@ -138,12 +138,18 @@ module Overcommit
       return unless File.directory?(hooks_path)
 
       ensure_directory(old_hooks_path)
-      Overcommit::Utils.supported_hook_types.each do |hook_type|
+      Overcommit::Utils.supported_hook_types(@options[:directory]).each do |hook_type|
         hook_file = File.join(hooks_path, hook_type)
         unless can_replace_file?(hook_file)
           log.warning "Hook '#{File.expand_path(hook_type)}' already exists and " \
                       "was not installed by Overcommit. Moving to '#{old_hooks_path}'"
-          FileUtils.mv(hook_file, old_hooks_path)
+          if @options[:directory]
+            hook_dir = File.basename(File.dirname(hook_file))
+            dest_dir = old_hooks_path + "/" +  hook_dir + "/"
+            FileUtils.mv(hook_file, dest_dir, force: true)
+          else
+            FileUtils.mv(hook_file, old_hooks_path)
+          end
         end
       end
       # Remove old-hooks directory if empty (i.e. no old hooks were preserved)
