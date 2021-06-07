@@ -26,7 +26,7 @@ if hook_type == 'overcommit-hook'
   exit 64 # EX_USAGE
 end
 
-# Check if the hook located in .git/hooks/pre-commit.d
+# Check if the hook located in .git/hooks/<hook_type>.d/
 parent_dir = File.basename(File.dirname($0))
 if parent_dir != "hooks"
   if parent_dir.match?(/.d$/)
