@@ -1,3 +1,36 @@
+# Overcommit Fork
+
+## Difference
+
+- Allow install overcommit under custom folder to remove conflicts to use original git hooks
+
+## Install
+
+Update the Gemfile (proposed `.overcommit_gems.rb`) for overcommit to use forked version:
+
+```ruby
+gem "overcommit", git: "https://github.com/miry/overcommit.git", branch: "master"
+```
+
+Install the git version and update the hooks:
+
+```shell
+$ BUNDLE_GEMFILE=.overcommit_gems.rb bundle update
+$ BUNDLE_GEMFILE=.overcommit_gems.rb bundle exec overcommit --install --directory
+```
+
+Another tool should supports `.git/hooks/pre-commit.d`, otherwise need update the another tool.
+
+## Usage
+
+Check that config is working
+
+```shell
+BUNDLE_GEMFILE=.overcommit_gems.rb bundle exec overcommit run
+```
+
+---
+
 [![Gem Version](https://badge.fury.io/rb/overcommit.svg)](https://badge.fury.io/rb/overcommit)
 [![Build Status](https://travis-ci.org/sds/overcommit.svg?branch=master)](https://travis-ci.org/sds/overcommit)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/umui038jlm597ryf?svg=true)](https://ci.appveyor.com/project/sds/overcommit)
