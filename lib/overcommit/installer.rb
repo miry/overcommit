@@ -80,6 +80,12 @@ module Overcommit
 
     def ensure_directory(path)
       FileUtils.mkdir_p(path)
+
+      dirs = Overcommit::Utils.supported_hook_types(@options[:directory]).
+                map{|hook_path| path + '/' + File.dirname(hook_path) }.uniq.compact
+      dirs.each do |hook_dir|
+        FileUtils.mkdir_p(hook_dir)
+      end
     end
 
     def validate_target
@@ -110,7 +116,7 @@ module Overcommit
     def install_hook_files
       # Copy each hook type (pre-commit, commit-msg, etc.) from the master hook.
       Dir.chdir(hooks_path) do
-        Overcommit::Utils.supported_hook_types.each do |hook_type|
+        Overcommit::Utils.supported_hook_types(@options[:directory]).each do |hook_type|
           unless can_replace_file?(hook_type)
             raise Overcommit::Exceptions::PreExistingHooks,
                   "Hook '#{File.expand_path(hook_type)}' already exists and " \

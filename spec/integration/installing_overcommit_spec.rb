@@ -15,6 +15,22 @@ describe 'installing Overcommit' do
     end
   end
 
+  context 'when to folders' do
+    around do |example|
+      repo do
+        puts `overcommit --install --directory`
+        example.run
+      end
+    end
+
+    it 'leaves the hooks intact' do
+      Overcommit::Utils.supported_hook_types.each do |hook_type|
+        hook_file = File.join('.git', 'hooks', hook_type + '.d', 'overcommit')
+        File.read(hook_file).should include 'OVERCOMMIT'
+      end
+    end
+  end
+
   context 'when template directory points to the Overcommit template directory' do
     around do |example|
       repo(template_dir: Overcommit::Installer::TEMPLATE_DIRECTORY) do

@@ -90,6 +90,10 @@ module Overcommit
         @options[:action] = :install
       end
 
+      opts.on('-d', '--directory', 'Use directory format for hooks: .git/hooks/<type>.d/overcommit') do
+        @options[:directory] = true
+      end
+
       opts.on('-f', '--force', 'Overwrite any previously installed hooks') do
         @options[:force] = true
       end
