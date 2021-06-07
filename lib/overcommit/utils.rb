@@ -99,11 +99,13 @@ module Overcommit
       end
 
       # Returns a list of supported hook types (pre-commit, commit-msg, etc.)
-      def supported_hook_types
-        Dir[File.join(HOOK_DIRECTORY, '*')].
+      def supported_hook_types(directory=nil)
+        result = Dir[File.join(HOOK_DIRECTORY, '*')].
           select { |file| File.directory?(file) }.
           reject { |file| File.basename(file) == 'shared' }.
           map { |file| File.basename(file).tr('_', '-') }
+        result = result.map { |file| file + ".d/overcommit" } if directory
+        result
       end
 
       # Returns a list of supported hook classes (PreCommit, CommitMsg, etc.)

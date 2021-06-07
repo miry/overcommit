@@ -122,6 +122,13 @@ describe Overcommit::Utils do
     # rubocop:disable Metrics/LineLength
     it { should =~ %w[commit-msg pre-commit post-checkout post-commit post-merge post-rewrite pre-push pre-rebase prepare-commit-msg] }
     # rubocop:enable Metrics/LineLength
+
+    context 'with directory option' do
+      subject { described_class.supported_hook_types(true) }
+      # rubocop:disable Metrics/LineLength
+      it { should =~ %w[commit-msg.d/overcommit pre-commit.d/overcommit post-checkout.d/overcommit post-commit.d/overcommit post-merge.d/overcommit post-rewrite.d/overcommit pre-push.d/overcommit pre-rebase.d/overcommit prepare-commit-msg.d/overcommit] }
+      # rubocop:enable Metrics/LineLength
+    end
   end
 
   describe '.supported_hook_type_classes' do
