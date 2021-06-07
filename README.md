@@ -125,6 +125,7 @@ The `overcommit` executable supports the following command-line flags:
 Command Line Flag         | Description
 --------------------------|----------------------------------------------------
 `-i`/`--install`          | Install Overcommit hooks in a repository
+`-d`/`--directory`        | Install Overcommit hooks in a repository to <hook-type>.d/overcommit. Eg. (.git/hooks/pre-commit.d/overcommit)
 `-u`/`--uninstall`        | Remove Overcommit hooks from a repository
 `-f`/`--force`            | Don't bail on install if other hooks already exist--overwrite them
 `-l`/`--list-hooks`       | Display all available hooks in the current repository

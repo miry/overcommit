@@ -21,8 +21,9 @@ describe 'template directory' do
 
     it 'contains all other hooks as copies of the master hook' do
       Overcommit::Utils.supported_hook_types.each do |hook_type|
-        FileUtils.compare_file(File.join(hooks_dir, hook_type),
-                               File.join(hooks_dir, 'overcommit-hook')).should == true
+        hook_file = File.join(hooks_dir, hook_type)
+        master_hook_file = File.join(hooks_dir, 'overcommit-hook')
+        expect(FileUtils.compare_file(hook_file, master_hook_file)).to be_truthy, "#{hook_file} is not equal #{master_hook_file}"
       end
     end
 
